@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">PokemonGoAlerts</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="name">Name</string>
+    <string name="email">Email address</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Confirm password</string>
 </resources>
