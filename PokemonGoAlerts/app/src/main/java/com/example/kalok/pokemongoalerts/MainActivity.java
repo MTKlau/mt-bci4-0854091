@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.LocationSource;
@@ -22,10 +23,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
 
     private static final int PERMISSION_REQUEST_FINE_LOCATION = 1;
 
-    private TextView nameTextView;
-    private TextView emailTextView;
-    private TextView passwordTextView;
-    private TextView passwordConfirmTextView;
+    private EditText nameEditText;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private EditText passwordConfirmEditText;
 
     private boolean isNetworkEnabled;
     private Location location;
@@ -37,6 +38,11 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        nameEditText = (EditText) findViewById(R.id.nameEditText);
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
+        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+        passwordConfirmEditText = (EditText) findViewById(R.id.passwordConfirmedEditText;)
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
