@@ -17,7 +17,7 @@
         android:text="@string/name"
         android:gravity="center_vertical"
         tools:layout_editor_absoluteY="56dp"
-        app:layout_constraintRight_toLeftOf="@+id/editText4"
+        app:layout_constraintRight_toLeftOf="@+id/nameEditText"
         android:layout_marginRight="8dp"
         android:layout_marginEnd="8dp" />
 
@@ -37,10 +37,10 @@
         android:layout_height="50dp"
         android:text="@string/email"
         android:gravity="center_vertical"
-        tools:layout_editor_absoluteY="105dp"
-        app:layout_constraintRight_toLeftOf="@+id/nameEditText"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp" />
+        tools:layout_editor_absoluteY="130dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toLeftOf="@+id/emailEditText"
+        android:layout_marginRight="7dp" />
 
     <EditText
         android:id="@+id/emailEditText"
@@ -49,7 +49,7 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         tools:layout_editor_absoluteX="153dp"
-        tools:layout_editor_absoluteY="105dp" />
+        tools:layout_editor_absoluteY="130dp" />
 
     <TextView
         android:id="@+id/textView3"
@@ -57,9 +57,9 @@
         android:layout_height="50dp"
         android:text="@string/password"
         android:gravity="center_vertical"
-        tools:layout_editor_absoluteY="151dp"
-        app:layout_constraintRight_toLeftOf="@+id/emailEditText"
-        android:layout_marginRight="8dp"
+        tools:layout_editor_absoluteY="201dp"
+        app:layout_constraintRight_toLeftOf="@+id/passwordEditText"
+        android:layout_marginRight="7dp"
         android:layout_marginEnd="8dp" />
 
     <EditText
@@ -69,7 +69,7 @@
         android:ems="10"
         android:inputType="textPassword"
         tools:layout_editor_absoluteX="153dp"
-        tools:layout_editor_absoluteY="151dp" />
+        tools:layout_editor_absoluteY="201dp" />
 
     <TextView
         android:id="@+id/textView4"
@@ -77,9 +77,9 @@
         android:layout_height="50dp"
         android:text="@string/password_confirm"
         android:gravity="center_vertical"
-        tools:layout_editor_absoluteY="194dp"
-        app:layout_constraintRight_toLeftOf="@+id/editText3"
-        android:layout_marginRight="8dp"
+        tools:layout_editor_absoluteY="269dp"
+        app:layout_constraintRight_toLeftOf="@+id/passwordConfirmedEditText"
+        android:layout_marginRight="7dp"
         android:layout_marginEnd="8dp" />
 
     <EditText
@@ -89,13 +89,13 @@
         android:ems="10"
         android:inputType="numberPassword"
         tools:layout_editor_absoluteX="153dp"
-        tools:layout_editor_absoluteY="194dp" />
+        tools:layout_editor_absoluteY="269dp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/submitAccountButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
         tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="279dp" />
+        tools:layout_editor_absoluteY="366dp" />
 </android.support.constraint.ConstraintLayout>
