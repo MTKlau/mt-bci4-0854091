@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.submitAccountButton:
+                Intent homeIntent = new Intent(this,HomeActivity.class);
+                startActivity(homeIntent);
                 break;
             default:
                 break;

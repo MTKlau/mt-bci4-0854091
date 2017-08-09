@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PokemonGoAlerts</string>
+    <string name="app_name">Pokemon Go Alerts</string>
     <string name="title_activity_maps">Kaart</string>
     <string name="title_activity_main">MainActivity</string>
 
@@ -7,4 +7,5 @@
     <string name="email">E-mailadres</string>
     <string name="password">Wachtwoord</string>
     <string name="password_confirm">Bevestig wachtwoord</string>
+    <string name="login_submit_button">Inloggen</string>
 </resources>
