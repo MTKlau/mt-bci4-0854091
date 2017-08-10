@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
         passwordConfirmEditText = (EditText) findViewById(R.id.passwordConfirmedEditText);
         submitAccountButton = (Button) findViewById(R.id.submitAccountButton);
 
+        submitAccountButton.setOnClickListener(this);
+
         notification = new NotificationCompat.Builder(this);
         notification.setAutoCancel(true);
 
@@ -112,12 +114,14 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
 
     @Override
     public void onClick(View v) {
+        Log.d("view",v+"");
         switch(v.getId()){
             case R.id.submitAccountButton:
-                Intent homeIntent = new Intent(this,HomeActivity.class);
+                Intent homeIntent = new Intent(MainActivity.this,HomeActivity.class);
                 startActivity(homeIntent);
                 break;
             default:
+                Log.d("default","default");
                 break;
         }
     }

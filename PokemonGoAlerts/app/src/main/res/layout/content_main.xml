@@ -12,7 +12,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/row_height"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="-214dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
@@ -21,7 +21,8 @@
         android:textSize="@dimen/title_font_size"
         app:layout_constraintBottom_toTopOf="@+id/nameEditText"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="1.0" />
 
     <EditText
         android:id="@+id/nameEditText"
