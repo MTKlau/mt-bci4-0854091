@@ -8,4 +8,11 @@
     tools:context="com.example.kalok.pokemongoalerts.HomeActivity"
     tools:showIn="@layout/activity_home">
 
+    <Button
+        android:id="@+id/goToMapsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_to_maps_button"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="213dp" />
 </android.support.constraint.ConstraintLayout>

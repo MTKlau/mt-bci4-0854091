@@ -9,4 +9,5 @@
     <string name="password_confirm">Confirm password</string>
     <string name="login_submit_button">Log in</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="go_to_maps_button">Go to map</string>
 </resources>
