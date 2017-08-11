@@ -11,7 +11,7 @@ import org.json.JSONArray;
 public class GetMarkerDataTask extends AsyncTask<Object,Object,JSONArray> {
 
     public GetMarkerDataTask(){
-
+        
     }
 
     @Override
