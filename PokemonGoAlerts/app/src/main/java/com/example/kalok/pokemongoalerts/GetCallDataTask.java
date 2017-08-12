@@ -8,9 +8,9 @@ import org.json.JSONArray;
  * Created by Kalok on 9-8-2017.
  */
 
-public class GetMarkerDataTask extends AsyncTask<Object,Object,JSONArray> {
+public class GetCallDataTask extends AsyncTask<Object,Object,JSONArray> {
 
-    public GetMarkerDataTask(){
+    public GetCallDataTask(){
         
     }
 
@@ -22,5 +22,7 @@ public class GetMarkerDataTask extends AsyncTask<Object,Object,JSONArray> {
     @Override
     protected void onPostExecute(JSONArray jsonArray) {
         super.onPostExecute(jsonArray);
+
+
     }
 }
