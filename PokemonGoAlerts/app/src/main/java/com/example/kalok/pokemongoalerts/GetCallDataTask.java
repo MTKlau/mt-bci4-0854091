@@ -10,19 +10,22 @@ import org.json.JSONArray;
 
 public class GetCallDataTask extends AsyncTask<Object,Object,JSONArray> {
 
-    public GetCallDataTask(){
-        
+    private String url;
+
+    public GetCallDataTask(String url){
+        this.url = url;
     }
 
     @Override
     protected JSONArray doInBackground(Object[] params) {
-        return null;
+        GetCallData getCallData = new GetCallData();
+        return getCallData.getJsonData(this.url);
     }
 
     @Override
     protected void onPostExecute(JSONArray jsonArray) {
         super.onPostExecute(jsonArray);
 
-
+        
     }
 }
