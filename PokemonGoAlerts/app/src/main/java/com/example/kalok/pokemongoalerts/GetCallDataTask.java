@@ -2,18 +2,22 @@ package com.example.kalok.pokemongoalerts;
 
 import android.os.AsyncTask;
 
+import com.example.kalok.pokemongoalerts.interfaces.GetCalls;
+
 import org.json.JSONArray;
 
 /**
  * Created by Kalok on 9-8-2017.
  */
 
-public class GetCallDataTask extends AsyncTask<Object,Object,JSONArray> {
+public class GetCallDataTask extends AsyncTask<Object,Void,JSONArray> {
 
     private String url;
+    private GetCalls getCalls;
 
-    public GetCallDataTask(String url){
+    public GetCallDataTask(String url,GetCalls getCalls){
         this.url = url;
+        this.getCalls = getCalls;
     }
 
     @Override
@@ -26,6 +30,6 @@ public class GetCallDataTask extends AsyncTask<Object,Object,JSONArray> {
     protected void onPostExecute(JSONArray jsonArray) {
         super.onPostExecute(jsonArray);
 
-        
+        getCalls.processFinish(jsonArray);
     }
 }

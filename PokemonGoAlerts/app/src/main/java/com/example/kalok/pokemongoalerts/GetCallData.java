@@ -19,6 +19,7 @@ public class GetCallData {
 
     private HttpURLConnection getUrlConnection;
     private BufferedReader bufferedReader;
+    private String jsonData;
     private JSONArray jsonArray;
 
     public GetCallData(){
@@ -29,11 +30,11 @@ public class GetCallData {
 
         try{
             URL getUrl = new URL(url);
-            this.getUrlConnection = (HttpURLConnection) getUrl.openConnection();
-            this.getUrlConnection.connect();
+            getUrlConnection = (HttpURLConnection) getUrl.openConnection();
+            getUrlConnection.connect();
 
             InputStream getInputStream = getUrlConnection.getInputStream();
-            this.bufferedReader = new BufferedReader(new InputStreamReader(getInputStream));
+            bufferedReader = new BufferedReader(new InputStreamReader(getInputStream));
             String jsonLine = "";
             StringBuffer jsonBuffer = new StringBuffer();
 
@@ -41,8 +42,8 @@ public class GetCallData {
                 jsonBuffer.append(jsonLine);
             }
 
-            String jsonData = jsonBuffer.toString();
-            this.jsonArray = new JSONArray(jsonData);
+            jsonData = jsonBuffer.toString();
+            jsonArray = new JSONArray(jsonData);
         }catch (MalformedURLException e){
             e.printStackTrace();
         }catch(IOException e){
@@ -62,7 +63,7 @@ public class GetCallData {
             }
         }
 
-        return this.jsonArray;
+        return jsonArray;
     }
 
 }
