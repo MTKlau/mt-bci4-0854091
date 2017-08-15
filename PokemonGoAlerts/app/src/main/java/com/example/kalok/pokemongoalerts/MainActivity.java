@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -46,11 +47,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
     private static final int PERMISSION_REQUEST_FINE_LOCATION = 1;
     private static final int uniqueID = 345345;
 
-    private EditText nameEditText;
-    private EditText emailEditText;
-    private EditText passwordEditText;
-    private EditText passwordConfirmEditText;
-    private Button submitAccountButton;
+    private EditText usernameEditText;
+    private EditText levelEditText;
+    private EditText teamEditText;
+    private Button continueButton;
     private NotificationCompat.Builder notification;
 
     private boolean isNetworkEnabled;
@@ -64,13 +64,12 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        nameEditText = (EditText) findViewById(R.id.nameEditText);
-        emailEditText = (EditText) findViewById(R.id.emailEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        passwordConfirmEditText = (EditText) findViewById(R.id.passwordConfirmedEditText);
-        submitAccountButton = (Button) findViewById(R.id.submitAccountButton);
+        usernameEditText = (EditText) findViewById(R.id.usernameEditText);
+        levelEditText = (EditText) findViewById(R.id.levelEditText);
+        teamEditText = (EditText) findViewById(R.id.teamEditText);
+        continueButton = (Button) findViewById(R.id.continueButton);
 
-        submitAccountButton.setOnClickListener(this);
+        continueButton.setOnClickListener(this);
 
         notification = new NotificationCompat.Builder(this);
         notification.setAutoCancel(true);
@@ -96,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
                         .setAction("Action", null).show();
             }
         });
+
+//        AsyncTask createUserTask = new CreateCallTask();
+//        createUserTask.execute();
     }
 
     public void askForLocationPermission() {
@@ -133,8 +135,12 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
     public void onClick(View v) {
         Log.d("view",v+"");
         switch(v.getId()){
-            case R.id.submitAccountButton:
+            case R.id.continueButton:
                 Intent homeIntent = new Intent(MainActivity.this,HomeActivity.class);
+
+                AsyncTask createUserTask = new CreateUserTask("https://stud.hosted.hr.nl/0854091/pogoalerts/users/",usernameEditText.getText().toString(),Integer.parseInt(levelEditText.getText().toString()),teamEditText.getText().toString());
+                createUserTask.execute();
+
                 startActivity(homeIntent);
                 break;
             default:

@@ -34,7 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         thisObject = this;
 
-        AsyncTask getCallDataTask = new GetCallDataTask("https://stud.hosted.hr.nl/0854091/usersdata/piet",this);
+        AsyncTask getCallDataTask = new GetCallDataTask("https://stud.hosted.hr.nl/0854091/pogoalerts/calls/",this);
         getCallDataTask.execute();
     }
 
