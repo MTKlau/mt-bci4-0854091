@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -20,7 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Spinner;
 
 import com.example.kalok.pokemongoalerts.interfaces.GetCalls;
 import com.google.android.gms.maps.LocationSource;
@@ -28,28 +29,19 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.InvalidParameterSpecException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-public class MainActivity extends AppCompatActivity implements LocationSource.OnLocationChangedListener, View.OnClickListener, GetCalls{
+public class MainActivity extends AppCompatActivity implements LocationSource.OnLocationChangedListener, View.OnClickListener{
 
     private static final int PERMISSION_REQUEST_FINE_LOCATION = 1;
     private static final int uniqueID = 345345;
 
+    public static final String STATIC_PREFERENCES = "preferences";
+
+    private SharedPreferences.Editor sharedEditor;
+    private SharedPreferences getSharedPreferences;
+
     private EditText usernameEditText;
     private EditText levelEditText;
-    private EditText teamEditText;
+    private Spinner teamSpinner;
     private Button continueButton;
     private NotificationCompat.Builder notification;
 
@@ -66,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
 
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         levelEditText = (EditText) findViewById(R.id.levelEditText);
-        teamEditText = (EditText) findViewById(R.id.teamEditText);
+        teamSpinner = (Spinner) findViewById(R.id.teamSpinner);
         continueButton = (Button) findViewById(R.id.continueButton);
 
         continueButton.setOnClickListener(this);
@@ -96,8 +88,14 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
             }
         });
 
-//        AsyncTask createUserTask = new CreateCallTask();
-//        createUserTask.execute();
+        sharedEditor = this.getSharedPreferences(STATIC_PREFERENCES, this.MODE_PRIVATE).edit();
+        getSharedPreferences  = this.getSharedPreferences(STATIC_PREFERENCES, this.MODE_PRIVATE);
+
+        if(getSharedPreferences.contains("username") && getSharedPreferences.contains("level") && getSharedPreferences.contains("team")){
+            Log.d("USERNAME",getSharedPreferences.getString("username",null)+"");
+            Log.d("LEVEL",getSharedPreferences.getInt("level",0)+"");
+            Log.d("TEAM",getSharedPreferences.getString("team",null)+"");
+        }
     }
 
     public void askForLocationPermission() {
@@ -138,8 +136,15 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
             case R.id.continueButton:
                 Intent homeIntent = new Intent(MainActivity.this,HomeActivity.class);
 
-                AsyncTask createUserTask = new CreateUserTask("https://stud.hosted.hr.nl/0854091/pogoalerts/users/",usernameEditText.getText().toString(),Integer.parseInt(levelEditText.getText().toString()),teamEditText.getText().toString());
+                sharedEditor.putString("username",usernameEditText.getText().toString());
+                sharedEditor.putInt("level",Integer.parseInt(levelEditText.getText().toString()));
+                sharedEditor.putString("team",teamSpinner.getSelectedItem().toString());
+                sharedEditor.commit();
+
+                AsyncTask createUserTask = new CreateUserTask(getString(R.string.api_users),usernameEditText.getText().toString(),Integer.parseInt(levelEditText.getText().toString()),teamSpinner.getSelectedItem().toString());
                 createUserTask.execute();
+
+                Log.d("shared",getSharedPreferences.getAll()+"");
 
                 startActivity(homeIntent);
                 break;
@@ -147,36 +152,5 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
                 Log.d("default","default");
                 break;
         }
-    }
-
-//    public static SecretKey generateKey()
-//            throws NoSuchAlgorithmException, InvalidKeySpecException {
-//        return secret = new SecretKeySpec(password.getBytes(), "AES");
-//    }
-
-    public static byte[] encryptMsg(String message, SecretKey secret)
-            throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
-   /* Encrypt the message. */
-        Cipher cipher = null;
-        cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, secret);
-        byte[] cipherText = cipher.doFinal(message.getBytes("UTF-8"));
-        return cipherText;
-    }
-
-    public static String decryptMsg(byte[] cipherText, SecretKey secret)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidParameterSpecException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException
-    {
-    /* Decrypt the message, given derived encContentValues and initialization vector. */
-        Cipher cipher = null;
-        cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, secret);
-        String decryptString = new String(cipher.doFinal(cipherText), "UTF-8");
-        return decryptString;
-    }
-
-    @Override
-    public void processFinish(JSONArray jsonArray) {
-
     }
 }

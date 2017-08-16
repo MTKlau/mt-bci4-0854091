@@ -1,11 +1,22 @@
 <resources>
     <string name="app_name">Pokemon Go Alerts</string>
+
+    <string name="api_users">https://stud.hosted.hr.nl/0854091/pogoalerts/users/</string>
+    <string name="api_calls">https://stud.hosted.hr.nl/0854091/pogoalerts/calls/</string>
+
     <string name="title_activity_maps">Kaart</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
 
     <string name="username">Gebruikernaam</string>
     <string name="level">Level</string>
     <string name="team">Team</string>
     <string name="login_submit_button">Inloggen</string>
     <string name="go_to_maps_button">Ga naar kaart</string>
+
+    <string-array name="team">
+        <item>Mystic</item>
+        <item>Instinct</item>
+        <item>Valor</item>
+    </string-array>
 </resources>

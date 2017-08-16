@@ -15,6 +15,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:gravity="center"
         android:ems="10"
         android:text="@string/app_name"
         android:textAlignment="center"
@@ -62,13 +63,27 @@
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintTop_toBottomOf="@+id/usernameEditText" />
 
-    <EditText
-        android:id="@+id/teamEditText"
+    <TextView
+        android:id="@+id/teamTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/row_height"
+        android:text="@string/team"
+        android:textSize="@dimen/login_font_size"
+        tools:layout_editor_absoluteY="190dp"
+        android:gravity="center"
+        app:layout_constraintRight_toLeftOf="@+id/teamSpinner"
+        android:layout_marginRight="53dp"
+        android:layout_marginEnd="53dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/levelEditText" />
+
+    <Spinner
+        android:id="@+id/teamSpinner"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/row_height"
         android:ems="10"
         android:textSize="@dimen/login_font_size"
-        android:hint="@string/team"
+        android:entries="@array/team"
         android:inputType="text"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -76,7 +91,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/levelEditText"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.698"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/continueButton"
         app:layout_constraintVertical_bias="0.0" />
@@ -89,7 +104,7 @@
         android:textSize="@dimen/login_font_size"
         android:text="@string/login_submit_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="49dp"
+        android:layout_marginBottom="119dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
