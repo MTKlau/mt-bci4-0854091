@@ -92,9 +92,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
         getSharedPreferences  = this.getSharedPreferences(STATIC_PREFERENCES, this.MODE_PRIVATE);
 
         if(getSharedPreferences.contains("username") && getSharedPreferences.contains("level") && getSharedPreferences.contains("team")){
-            Log.d("USERNAME",getSharedPreferences.getString("username",null)+"");
-            Log.d("LEVEL",getSharedPreferences.getInt("level",0)+"");
-            Log.d("TEAM",getSharedPreferences.getString("team",null)+"");
+            Intent homeIntent = new Intent(MainActivity.this,HomeActivity.class);
+            startActivity(homeIntent);
         }
     }
 
