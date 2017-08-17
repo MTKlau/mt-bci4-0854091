@@ -17,7 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GetCalls {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GetCalls,GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
     private String api = "https://stud.hosted.hr.nl/0854091/pogoalerts/";
@@ -56,6 +56,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(51.924420, 4.477733);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.setOnMapClickListener(this);
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+
+        // Setting the title for the marker.
+        // This will be displayed on taping the marker
+        markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+
+        Log.i("lat",latLng.latitude+"");
+        Log.i("lng",latLng.longitude+"");
+
+        // Clears the previously touched position
+        mMap.clear();
+
+        // Animating to the touched position
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        // Placing a marker on the touched position
+        mMap.addMarker(markerOptions);
     }
 
     @Override

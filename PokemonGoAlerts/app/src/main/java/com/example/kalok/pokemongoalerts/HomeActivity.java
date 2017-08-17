@@ -10,11 +10,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
 
     private SharedPreferences getSharedPreferences;
+    private Button createGroupButton;
+    private Button goToOverviewButton;
     private Button goToMapsButton;
+    private TextView homeTitleTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +36,22 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        homeTitleTextView = (TextView) findViewById(R.id.homeTitleTextView);
+
         getSharedPreferences  = this.getSharedPreferences(MainActivity.STATIC_PREFERENCES, MainActivity.MODE_PRIVATE);
 
         if(getSharedPreferences.contains("username") && getSharedPreferences.contains("level") && getSharedPreferences.contains("team")) {
-            Log.d("USERNAME", getSharedPreferences.getString("username", null) + "");
+            homeTitleTextView.append(getSharedPreferences.getString("username", null));
+//            Log.d("USERNAME", getSharedPreferences.getString("username", null) + "");
             Log.d("LEVEL", getSharedPreferences.getInt("level", 0) + "");
             Log.d("TEAM", getSharedPreferences.getString("team", null) + "");
         }
 
+        createGroupButton = (Button) findViewById(R.id.createGroupButton);
+        createGroupButton.setOnClickListener(this);
+
+        goToOverviewButton = (Button) findViewById(R.id.gotoOverviewButton);
+        goToOverviewButton.setOnClickListener(this);
 
         goToMapsButton = (Button) findViewById(R.id.goToMapsButton);
         goToMapsButton.setOnClickListener(this);
@@ -48,6 +60,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case(R.id.createGroupButton):
+                break;
+            case(R.id.gotoOverviewButton):
+                Intent overviewIntent = new Intent(HomeActivity.this,OverviewActivity.class);
+                startActivity(overviewIntent);
+                break;
             case(R.id.goToMapsButton):
                 Intent mapIntent = new Intent(HomeActivity.this,MapsActivity.class);
                 startActivity(mapIntent);

@@ -11,12 +11,18 @@
     <string name="username">Username</string>
     <string name="level">Level</string>
     <string name="team">Team</string>
+
     <string name="login_submit_button">Log in</string>
+    <string name="create_group_button">Create group</string>
+    <string name="go_to_overview_button">Overview</string>
     <string name="go_to_maps_button">Go to map</string>
-    
+
+    <string name="home_title_text">Welcome</string>
+
     <string-array name="team">
         <item>Mystic</item>
         <item>Instinct</item>
         <item>Valor</item>
     </string-array>
+    <string name="title_activity_overview">OverviewActivity</string>
 </resources>
