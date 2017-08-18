@@ -1,19 +1,13 @@
 package com.example.kalok.pokemongoalerts;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.example.kalok.pokemongoalerts.models.Call;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -27,19 +21,28 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class CreateCallTask extends AsyncTask<Object, Object, Object> {
 
-    private Call call;
+    private String url;
+    private int userId;
+    private String title;
+    private String description;
+    private double latitude;
+    private double longitude;
 
-    public CreateCallTask(){
-
+    public CreateCallTask(String url, int userId,String title,String description,double latitude,double longitude){
+        this.url = url;
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     @Override
     protected Object doInBackground(Object... params) {
 
         try {
-            URL url = new URL("https://stud.hosted.hr.nl/0854091/pogoalerts/users/");
+            URL url = new URL(this.url);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-
 
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -50,16 +53,14 @@ public class CreateCallTask extends AsyncTask<Object, Object, Object> {
             connection.setDoInput(true);
 
             JSONObject jsonParam = new JSONObject();
-//            jsonParam.put("title", "Zapdos raid");
-//            jsonParam.put("description", "Mensen gezocht voor Zapdos raid in Rotterdam Centrum!");
-//            jsonParam.put("latitude", "52.2848394");
-//            jsonParam.put("longitude", "4.4345342");
-            jsonParam.put("username","KLau88");
-            jsonParam.put("level",34);
-            jsonParam.put("team","Valor");
-
+            jsonParam.put("user_id",this.userId);
+            jsonParam.put("title", this.title);
+            jsonParam.put("description", this.description);
+            jsonParam.put("latitude", this.latitude);
+            jsonParam.put("longitude", this.longitude);
+            
             Log.i("JSON", jsonParam.toString());
-            Log.d("ROFLMFAO","THIS IS TOO FUNNY");
+
             DataOutputStream os = new DataOutputStream(connection.getOutputStream());
             os.writeBytes(jsonParam.toString());
 
@@ -82,10 +83,5 @@ public class CreateCallTask extends AsyncTask<Object, Object, Object> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    protected void onPostExecute(Object o) {
-        super.onPostExecute(o);
     }
 }

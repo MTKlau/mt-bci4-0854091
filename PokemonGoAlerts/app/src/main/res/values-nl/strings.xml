@@ -16,6 +16,7 @@
     <string name="create_group_button">Groep maken</string>
     <string name="go_to_overview_button">Overzicht</string>
     <string name="go_to_maps_button">Ga naar kaart</string>
+    <string name="call_continue_button">Doorgaan</string>
 
     <string name="home_title_text">Welkom</string>
 

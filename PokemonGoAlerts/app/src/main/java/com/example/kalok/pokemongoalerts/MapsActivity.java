@@ -1,5 +1,8 @@
 package com.example.kalok.pokemongoalerts;
 
+import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -8,20 +11,28 @@ import android.util.Log;
 import com.example.kalok.pokemongoalerts.interfaces.GetCalls;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GetCalls,GoogleMap.OnMapClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GetCalls,GoogleMap.OnMapClickListener,LocationSource.OnLocationChangedListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private String api = "https://stud.hosted.hr.nl/0854091/pogoalerts/";
     private GetCalls thisObject;
+    private Marker createMarker;
+    private double latitude;
+    private double longitude;
+
+    private String callTitle;
+    private String callDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +44,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         thisObject = this;
-
-//        AsyncTask getCallDataTask = new GetCallDataTask("https://stud.hosted.hr.nl/0854091/pogoalerts/calls/",this);
-//        getCallDataTask.execute();
     }
 
 
@@ -51,11 +59,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(51.924420, 4.477733);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.setOnMapClickListener(this);
     }
 
@@ -72,6 +75,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.i("lat",latLng.latitude+"");
         Log.i("lng",latLng.longitude+"");
 
+        latitude = latLng.latitude;
+        longitude = latLng.longitude;
+
         // Clears the previously touched position
         mMap.clear();
 
@@ -79,7 +85,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
         // Placing a marker on the touched position
-        mMap.addMarker(markerOptions);
+        createMarker = mMap.addMarker(markerOptions);
+
+        Bundle data = getIntent().getExtras();
+
+        if(data != null){
+            callTitle = data.getString("title");
+            callDescription = data.getString("description");
+
+            Log.d("title",callTitle);
+            Log.d("description",callDescription);
+        }
+        AsyncTask createCallTask = new CreateCallTask("https://stud.hosted.hr.nl/0854091/pogoalerts/calls/", 19,callTitle,callDescription,latitude,longitude);
+        createCallTask.execute();
+
+//        mMap.setOnMarkerClickListener(this);
     }
 
     @Override
@@ -99,5 +119,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }finally{
             Log.d("finally","finally");
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        // Add a marker in Sydney and move the camera
+        LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        if(marker.equals(createMarker)){
+
+//            Bundle data = getIntent().getExtras();
+//
+//            if(data != null){
+//                callTitle = data.getString("title");
+//                callDescription = data.getString("description");
+//
+//                Log.d("title",callTitle);
+//                Log.d("description",callDescription);
+//            }
+//            AsyncTask createCallTask = new CreateCallTask("https://stud.hosted.hr.nl/0854091/pogoalerts/calls/", 19,callTitle,callDescription,latitude,longitude);
+//            createCallTask.execute();
+            Log.d("marker1",createMarker+"");
+        }else{
+            Log.d("marker1","no");
+        }
+
+        return false;
     }
 }

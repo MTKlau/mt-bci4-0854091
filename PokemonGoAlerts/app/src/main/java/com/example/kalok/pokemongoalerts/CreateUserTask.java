@@ -21,6 +21,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class CreateUserTask extends AsyncTask<Object,Object,Object> {
 
+    private int userId;
     private String url;
     private String username;
     private int level;

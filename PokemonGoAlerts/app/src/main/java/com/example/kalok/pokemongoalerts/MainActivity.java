@@ -29,7 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 
-public class MainActivity extends AppCompatActivity implements LocationSource.OnLocationChangedListener, View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final int PERMISSION_REQUEST_FINE_LOCATION = 1;
     private static final int uniqueID = 345345;
@@ -120,12 +120,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource.On
                 Log.d("longitude",location.getLongitude()+"");
             }
         }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.d("latitude",location.getLatitude()+"");
-        Log.d("longitude",location.getLongitude()+"");
     }
 
     @Override

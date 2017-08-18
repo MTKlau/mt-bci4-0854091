@@ -16,6 +16,7 @@
     <string name="create_group_button">Create group</string>
     <string name="go_to_overview_button">Overview</string>
     <string name="go_to_maps_button">Go to map</string>
+    <string name="call_continue_button">Continue</string>
 
     <string name="home_title_text">Welcome</string>
 
@@ -25,4 +26,5 @@
         <item>Valor</item>
     </string-array>
     <string name="title_activity_overview">OverviewActivity</string>
+    <string name="title_activity_create_call">CreateCallActivity</string>
 </resources>

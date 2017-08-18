@@ -51,6 +51,10 @@
         <activity
             android:name=".OverviewActivity"
             android:label="@string/title_activity_overview"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CreateCallActivity"
+            android:label="@string/title_activity_create_call"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

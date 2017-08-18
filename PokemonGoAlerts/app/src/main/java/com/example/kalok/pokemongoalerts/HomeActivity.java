@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         createGroupButton = (Button) findViewById(R.id.createGroupButton);
         createGroupButton.setOnClickListener(this);
 
-        goToOverviewButton = (Button) findViewById(R.id.gotoOverviewButton);
+        goToOverviewButton = (Button) findViewById(R.id.goToOverviewButton);
         goToOverviewButton.setOnClickListener(this);
 
         goToMapsButton = (Button) findViewById(R.id.goToMapsButton);
@@ -61,8 +61,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()){
             case(R.id.createGroupButton):
+                Intent createCallIntent = new Intent(HomeActivity.this,CreateCallActivity.class);
+                startActivity(createCallIntent);
                 break;
-            case(R.id.gotoOverviewButton):
+            case(R.id.goToOverviewButton):
                 Intent overviewIntent = new Intent(HomeActivity.this,OverviewActivity.class);
                 startActivity(overviewIntent);
                 break;
