@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.example.kalok.pokemongoalerts.interfaces.GetCalls;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  * Created by Kalok on 9-8-2017.
@@ -30,6 +31,10 @@ public class GetCallDataTask extends AsyncTask<Object,Void,JSONArray> {
     protected void onPostExecute(JSONArray jsonArray) {
         super.onPostExecute(jsonArray);
 
-        getCalls.processFinish(jsonArray);
+        try {
+            getCalls.processFinish(jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

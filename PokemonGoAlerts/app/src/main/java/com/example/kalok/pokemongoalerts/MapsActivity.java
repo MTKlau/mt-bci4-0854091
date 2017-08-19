@@ -1,9 +1,13 @@
 package com.example.kalok.pokemongoalerts;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,10 +26,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GetCalls,GoogleMap.OnMapClickListener,LocationSource.OnLocationChangedListener, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GetCalls, GoogleMap.OnMapClickListener, LocationSource.OnLocationChangedListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
-    private String api = "https://stud.hosted.hr.nl/0854091/pogoalerts/";
+    private String api = "https://stud.hosted.hr.nl/0854091/pogoalerts/calls/";
     private GetCalls thisObject;
     private Marker createMarker;
     private double latitude;
@@ -33,6 +37,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private String callTitle;
     private String callDescription;
+
+    private boolean isNetworkEnabled;
+    private Location location;
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         thisObject = this;
+
+        AsyncTask getCallDataTask = new GetCallDataTask(api, thisObject);
+        getCallDataTask.execute();
+        askForLocationPermission();
     }
 
 
@@ -72,8 +84,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // This will be displayed on taping the marker
         markerOptions.title(latLng.latitude + " : " + latLng.longitude);
 
-        Log.i("lat",latLng.latitude+"");
-        Log.i("lng",latLng.longitude+"");
+        Log.i("lat", latLng.latitude + "");
+        Log.i("lng", latLng.longitude + "");
 
         latitude = latLng.latitude;
         longitude = latLng.longitude;
@@ -89,14 +101,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Bundle data = getIntent().getExtras();
 
-        if(data != null){
+        if (data != null) {
             callTitle = data.getString("title");
             callDescription = data.getString("description");
 
-            Log.d("title",callTitle);
-            Log.d("description",callDescription);
+            Log.d("title", callTitle);
+            Log.d("description", callDescription);
         }
-        AsyncTask createCallTask = new CreateCallTask("https://stud.hosted.hr.nl/0854091/pogoalerts/calls/", 19,callTitle,callDescription,latitude,longitude);
+        AsyncTask createCallTask = new CreateCallTask(api, 19, callTitle, callDescription, latitude, longitude);
         createCallTask.execute();
 
 //        mMap.setOnMarkerClickListener(this);
@@ -104,20 +116,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void processFinish(JSONArray jsonArray) {
-        try{
+        try {
 
-            Log.d("test","test");
-            Log.w("log",jsonArray+"");
+            Log.d("test", "test");
+            Log.w("log", jsonArray + "");
 
-//            for(int i = 0; i<jsonArray.length(); i++) {
-//                Double latitude = jsonArray.getJSONObject(i).getDouble("latitude");
-//                Double longitude = jsonArray.getJSONObject(i).getDouble("longitude");
-//                LatLng markerPosition = new LatLng(latitude, longitude);
-//
-////                mMap.addMarker(new MarkerOptions().position(markerPosition).title(jsonArray.getJSONObject(i).getString("title")));
-//            }
-        }finally{
-            Log.d("finally","finally");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Double latitude = jsonArray.getJSONObject(i).getDouble("latitude");
+                Double longitude = jsonArray.getJSONObject(i).getDouble("longitude");
+                LatLng markerPosition = new LatLng(latitude, longitude);
+
+                mMap.addMarker(new MarkerOptions().position(markerPosition).title(jsonArray.getJSONObject(i).getString("title")));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            Log.d("finally", "finally");
+        }
+    }
+
+    public void askForLocationPermission() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (isNetworkEnabled) {
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            if(location != null){
+                Log.d("latitude",location.getLatitude()+"");
+                Log.d("longitude",location.getLongitude()+"");
+            }
         }
     }
 
@@ -135,17 +174,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(marker.equals(createMarker)){
 
-//            Bundle data = getIntent().getExtras();
-//
-//            if(data != null){
-//                callTitle = data.getString("title");
-//                callDescription = data.getString("description");
-//
-//                Log.d("title",callTitle);
-//                Log.d("description",callDescription);
-//            }
-//            AsyncTask createCallTask = new CreateCallTask("https://stud.hosted.hr.nl/0854091/pogoalerts/calls/", 19,callTitle,callDescription,latitude,longitude);
-//            createCallTask.execute();
+            Bundle data = getIntent().getExtras();
+
+            if(data != null){
+                callTitle = data.getString("title");
+                callDescription = data.getString("description");
+
+                Log.d("title",callTitle);
+                Log.d("description",callDescription);
+            }
+
             Log.d("marker1",createMarker+"");
         }else{
             Log.d("marker1","no");
