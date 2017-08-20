@@ -15,14 +15,14 @@ import java.net.URL;
  * Created by Kalok on 12-8-2017.
  */
 
-public class GetCallData {
+public class GetData {
 
     private HttpURLConnection getUrlConnection;
     private BufferedReader bufferedReader;
     private String jsonData;
     private JSONArray jsonArray;
 
-    public GetCallData(){
+    public GetData(){
 
     }
 

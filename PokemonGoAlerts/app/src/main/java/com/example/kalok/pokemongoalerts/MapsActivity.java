@@ -2,7 +2,6 @@ package com.example.kalok.pokemongoalerts;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -12,10 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.kalok.pokemongoalerts.interfaces.GetCalls;
+import com.example.kalok.pokemongoalerts.interfaces.GetDataInterface;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -24,13 +22,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GetCalls, GoogleMap.OnMapClickListener, LocationSource.OnLocationChangedListener, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GetDataInterface, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private String api = "https://stud.hosted.hr.nl/0854091/pogoalerts/calls/";
-    private GetCalls thisObject;
+    private GetDataInterface thisObject;
     private Marker createMarker;
     private double latitude;
     private double longitude;
@@ -53,8 +50,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         thisObject = this;
 
-        AsyncTask getCallDataTask = new GetCallDataTask(api, thisObject);
-        getCallDataTask.execute();
         askForLocationPermission();
     }
 
@@ -72,6 +67,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
+
+        Bundle data = getIntent().getExtras();
+
+        double latitude = data.getDouble("latitude");
+        double longitude = data.getDouble("longitude");
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(latitude,longitude));
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude,longitude)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude),15));
+        mMap.addMarker(markerOptions);
     }
 
     @Override
@@ -80,23 +87,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
 
-        // Setting the title for the marker.
-        // This will be displayed on taping the marker
-        markerOptions.title(latLng.latitude + " : " + latLng.longitude);
-
-        Log.i("lat", latLng.latitude + "");
-        Log.i("lng", latLng.longitude + "");
-
         latitude = latLng.latitude;
         longitude = latLng.longitude;
 
         // Clears the previously touched position
         mMap.clear();
-
-        // Animating to the touched position
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-
-        // Placing a marker on the touched position
         createMarker = mMap.addMarker(markerOptions);
 
         Bundle data = getIntent().getExtras();
@@ -104,12 +100,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (data != null) {
             callTitle = data.getString("title");
             callDescription = data.getString("description");
-
-            Log.d("title", callTitle);
-            Log.d("description", callDescription);
+            markerOptions.title(callTitle);
         }
         AsyncTask createCallTask = new CreateCallTask(api, 19, callTitle, callDescription, latitude, longitude);
         createCallTask.execute();
+
 
 //        mMap.setOnMarkerClickListener(this);
     }
@@ -158,15 +153,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("longitude",location.getLongitude()+"");
             }
         }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        // Add a marker in Sydney and move the camera
-        LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     @Override

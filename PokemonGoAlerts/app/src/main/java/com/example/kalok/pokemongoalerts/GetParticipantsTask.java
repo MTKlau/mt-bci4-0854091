@@ -8,23 +8,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 /**
- * Created by Kalok on 9-8-2017.
+ * Created by Kalok on 20-8-2017.
  */
 
-public class GetCallDataTask extends AsyncTask<Object,Void,JSONArray> {
+public class GetParticipantsTask extends AsyncTask<Object,Object,JSONArray> {
 
     private String url;
     private GetDataInterface getDataInterface;
 
-    public GetCallDataTask(String url,GetDataInterface getCalls){
+    public GetParticipantsTask(String url,GetDataInterface getDataInterface){
         this.url = url;
-        this.getDataInterface = getCalls;
+        this.getDataInterface = getDataInterface;
     }
 
     @Override
     protected JSONArray doInBackground(Object[] params) {
-        GetData getCallData = new GetData();
-        return getCallData.getJsonData(this.url);
+        GetData getParticipants = new GetData();
+        return getParticipants.getJsonData(this.url);
     }
 
     @Override

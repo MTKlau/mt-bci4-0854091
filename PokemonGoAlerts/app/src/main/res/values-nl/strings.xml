@@ -17,6 +17,8 @@
     <string name="go_to_overview_button">Overzicht</string>
     <string name="go_to_maps_button">Ga naar kaart</string>
     <string name="call_continue_button">Doorgaan</string>
+    <string name="check_location_button">Locatie</string>
+    <string name="join_lobby_button">Meedoen</string>
 
     <string name="home_title_text">Welkom</string>
 
