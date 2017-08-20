@@ -76,8 +76,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(new LatLng(latitude,longitude));
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude,longitude)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude),15));
+        if(Double.isNaN(latitude) && Double.isNaN(longitude)){
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(51.887077,4.490022)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.887077,4.490022),15));
+        }else{
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude,longitude)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude),15));
+        }
+
         mMap.addMarker(markerOptions);
     }
 

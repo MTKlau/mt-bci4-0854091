@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -73,6 +74,9 @@ public class CallDetailActivity extends AppCompatActivity implements View.OnClic
         if(v.getId() == R.id.joinLobbyButton){
             AsyncTask createCallUserTask = new CreateCallUserTask("https://stud.hosted.hr.nl/0854091/pogoalerts/call_user/",data.getInt("id"),data.getInt("user_id"));
             createCallUserTask.execute();
+
+            Intent reloadIntent = new Intent(CallDetailActivity.this, CallDetailActivity.class);
+            startActivity(reloadIntent);
         }
     }
 
@@ -82,13 +86,10 @@ public class CallDetailActivity extends AppCompatActivity implements View.OnClic
         try{
             for(int i = 0; i<jsonArray.length();i++){
                 JSONObject participant = jsonArray.getJSONObject(i);
-                Log.d("CALL DETAIL1",participant+"");
 
-                Log.d("LENGTH",jsonArray.length()+"");
-
-                Log.d("USER ID",participant.get("user_id")+"");
                 getUserTask = new GetUserDataTask("https://stud.hosted.hr.nl/0854091/pogoalerts/users/"+participant.get("user_id"),this);
                 getUserTask.execute();
+
             }
         }catch(JSONException e){
             e.printStackTrace();
@@ -101,13 +102,7 @@ public class CallDetailActivity extends AppCompatActivity implements View.OnClic
         try{
             for(int i = 0; i<jsonArray.length();i++){
                 JSONObject participant = jsonArray.getJSONObject(i);
-                Log.d("GET USER DATA BABY XD",participant+"");
 
-                Log.d("LENGTH",jsonArray.length()+"");
-
-                Log.d("USERNAME",participant.get("username")+"");
-                Log.d("LEVEL",participant.get("level")+"");
-                Log.d("TEAM",participant.get("team")+"");
                 callParticipantsTextView.append(participant.get("level") + " " + participant.get("username") + " " + participant.get("team") +"\r\n");
             }
         } catch (JSONException e) {

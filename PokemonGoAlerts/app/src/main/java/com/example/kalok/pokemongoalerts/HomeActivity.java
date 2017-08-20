@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         getSharedPreferences  = this.getSharedPreferences(MainActivity.STATIC_PREFERENCES, MainActivity.MODE_PRIVATE);
 
         if(getSharedPreferences.contains("username") && getSharedPreferences.contains("level") && getSharedPreferences.contains("team")) {
-            homeTitleTextView.append(getSharedPreferences.getString("username", null));
+            homeTitleTextView.append(" "+getSharedPreferences.getString("username", null));
 //            Log.d("USERNAME", getSharedPreferences.getString("username", null) + "");
             Log.d("LEVEL", getSharedPreferences.getInt("level", 0) + "");
             Log.d("TEAM", getSharedPreferences.getString("team", null) + "");
