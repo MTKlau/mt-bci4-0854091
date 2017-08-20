@@ -10,15 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.kalok.pokemongoalerts.interfaces.GetDataInterface;
+import com.example.kalok.pokemongoalerts.interfaces.GetUserInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CallDetailActivity extends AppCompatActivity implements View.OnClickListener,GetDataInterface {
+public class CallDetailActivity extends AppCompatActivity implements View.OnClickListener,GetDataInterface,GetUserInterface {
 
     private Bundle data;
     private TextView callTitleTextView;
@@ -26,6 +29,8 @@ public class CallDetailActivity extends AppCompatActivity implements View.OnClic
     private TextView callParticipantsTextView;
     private Button joinLobbyButton;
     private Button showCallLocationButton;
+    private TableLayout participantsTable;
+    private AsyncTask getUserTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +54,7 @@ public class CallDetailActivity extends AppCompatActivity implements View.OnClic
         joinLobbyButton = (Button) findViewById(R.id.joinLobbyButton);
         joinLobbyButton.setOnClickListener(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        participantsTable = (TableLayout) findViewById(R.id.participantsTable);
 
         AsyncTask getParticipantsTask = new GetParticipantsTask("https://stud.hosted.hr.nl/0854091/pogoalerts/call_user/",this);
         getParticipantsTask.execute();
@@ -84,9 +82,35 @@ public class CallDetailActivity extends AppCompatActivity implements View.OnClic
         try{
             for(int i = 0; i<jsonArray.length();i++){
                 JSONObject participant = jsonArray.getJSONObject(i);
-                Log.d("CALL DETAIL",participant+"");
+                Log.d("CALL DETAIL1",participant+"");
+
+                Log.d("LENGTH",jsonArray.length()+"");
+
+                Log.d("USER ID",participant.get("user_id")+"");
+                getUserTask = new GetUserDataTask("https://stud.hosted.hr.nl/0854091/pogoalerts/users/"+participant.get("user_id"),this);
+                getUserTask.execute();
             }
         }catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getUserData(JSONArray jsonArray) {
+
+        try{
+            for(int i = 0; i<jsonArray.length();i++){
+                JSONObject participant = jsonArray.getJSONObject(i);
+                Log.d("GET USER DATA BABY XD",participant+"");
+
+                Log.d("LENGTH",jsonArray.length()+"");
+
+                Log.d("USERNAME",participant.get("username")+"");
+                Log.d("LEVEL",participant.get("level")+"");
+                Log.d("TEAM",participant.get("team")+"");
+                callParticipantsTextView.append(participant.get("level") + " " + participant.get("username") + " " + participant.get("team") +"\r\n");
+            }
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

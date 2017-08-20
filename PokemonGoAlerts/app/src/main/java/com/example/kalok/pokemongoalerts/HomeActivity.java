@@ -27,15 +27,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         homeTitleTextView = (TextView) findViewById(R.id.homeTitleTextView);
 
         getSharedPreferences  = this.getSharedPreferences(MainActivity.STATIC_PREFERENCES, MainActivity.MODE_PRIVATE);
